@@ -1,5 +1,6 @@
 ChangeLog
 lib/MooseX/MarkAsMethods.pm
+Makefile.PL
 MANIFEST
 MANIFEST.SKIP
 META.yml
