@@ -71,7 +71,11 @@ sub import {
 
     on_scope_end {
 
-        my $meta      = Class::MOP::Class->initialize($target);
+        my $meta = Class::MOP::Class->initialize($target);
+
+        ### metaclass: ref $meta
+        return unless $meta && ref $meta ne 'Class::MOP::Class';
+
         my %methods   = map { ($_ => 1) } $meta->get_method_list;
         my %symbols   = %{ $meta->get_all_package_symbols('CODE') };
         my @overloads = grep { /^\(/ } keys %symbols;
