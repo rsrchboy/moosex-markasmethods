@@ -44,11 +44,11 @@ TODO: {
     "'version information here'"  => qr/to provide version information/,
   );
 
-  not_in_file_ok(Changes =>
+  not_in_file_ok(ChangeLog =>
     "placeholder date/time"       => qr(Date/time)
   );
 
-  module_boilerplate_ok('lib/MooseX/overload.pm');
+  module_boilerplate_ok('lib/MooseX/MarkAsMethods.pm');
 
 
 }

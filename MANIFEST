@@ -12,3 +12,4 @@ t/lib/SimpleChild.pm
 xt/author/boilerplate.t
 xt/author/pod-coverage.t
 xt/author/pod.t
+xt/release/no_smart_comments.t
