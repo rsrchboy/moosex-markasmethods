@@ -1,0 +1,14 @@
+ChangeLog
+lib/MooseX/MarkAsMethods.pm
+MANIFEST
+MANIFEST.SKIP
+META.yml
+README
+t/00-load.t
+t/01-simple.t
+t/02-inheritance.t
+t/lib/Simple.pm
+t/lib/SimpleChild.pm
+xt/author/boilerplate.t
+xt/author/pod-coverage.t
+xt/author/pod.t

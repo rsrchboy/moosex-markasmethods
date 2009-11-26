@@ -6,8 +6,11 @@ _build*
 pm_to_blib*
 *.tar.gz
 .lwpcookies
-MooseX-overload-*
+MooseX-MarkAsMethods-*
 cover_db
 *.old
 inc
 .*.swp
+ChangeLog
+META.yml
+*.bak
