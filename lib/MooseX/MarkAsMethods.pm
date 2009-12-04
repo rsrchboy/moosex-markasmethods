@@ -1,10 +1,5 @@
 package MooseX::MarkAsMethods;
 
-#MooseX::MarkAsMethods;
-#MooseX::Tidy
-#MooseX::namespace::tidy
-#MooseX::LooseEnds
-
 use warnings;
 use strict;
 
@@ -18,11 +13,7 @@ use Smart::Comments '###', '####';
 
 =head1 NAME
 
-MooseX::MarkAsMethods - Mark certain code symbols as methods
-
-=head1 VERSION
-
-Version 0.02
+MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 =cut
 
@@ -31,11 +22,22 @@ our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
+    package Foo;
     use Moose;
+
+    # mark overloads as methods and wipe other non-methods
+    use MooseX::MarkAsMethods autoclean => 1;
+
+    # ...
+
+    package Bar;
+    use Moose;
+
+    # order is important!
+    use namespace::autoclean;
     use MooseX::MarkAsMethods;
 
-    #...
-
+    # ...
 
 =head1 DESCRIPTION
 
@@ -43,16 +45,24 @@ MooseX::MarkAsMethods allows one to easily mark certain functions as Moose
 methods.  This will allow other packages such as namespace::autoclean to
 operate without, say, blowing away your overloads.
 
-By default (and all we can do at this point) is check for overloads, and mark
-those functions as methods.
+By default we check for overloads, and mark those functions as methods.
+
+If 'autoclean => 1' is passed to import on use'ing this module, we will clean
+out all non-methods in the same fashion namespace::autoclean does, except
+without the ability to specify additional non-methods to nuke.
 
 =head1 CAVEAT
 
 As currently implemented, we run our "method maker" at the end of the calling
 package's compile scope (L<B::Hooks::EndOfScope>).  As L<namespace::autoclean>
-does the same thing, it's important that if namespace::autoclean is use that
-it be use'd BEFORE MooseX::MarkAsMethods, so that it's end_of_scope block is
+does the same thing, it's important that if namespace::autoclean is used that
+it be use'd BEFORE MooseX::MarkAsMethods, so that its end_of_scope block is
 run after ours.
+
+The easiest way to invoke this module and clean out non-methods without having
+to worry about ordering is:
+
+    use MooseX::MarkAsMethods autoclean => 1;
 
 =cut
 
@@ -61,6 +71,10 @@ run after ours.
     use namespace::autoclean;
 
     use base 'Moose::Meta::Method';
+
+    # strictly speaking, we don't need to do this; we could just use
+    # Moose::Meta::Method or even Class::MOP::Method...  But it might be
+    # useful to easily differentiate these added methods.
 }
 
 sub import {
@@ -88,7 +102,7 @@ sub import {
 
             next if $methods{$overload_name};
 
-            ### adding: $overload_name
+            ### marking as method: $overload_name
             my $method = MooseX::MarkAsMethods::Meta::Method::Overload->wrap(
                 associated_metaclass => $meta,
                 package_name         => $target,
@@ -101,19 +115,11 @@ sub import {
             delete $symbols{$overload_name};
         }
 
-        ### %methods
-
-        unless ($args{no_autoclean}) {
-
-            #require namespace::autoclean;
-            #namespace::autoclean->import(
-            #    '-cleanee' => $target,
-            #    %{$args{autoclean_args}},
-            #);
-
-            #require namespace::clean;
-            #namespace::clean->clean_subroutines($target, grep { !$methods{$_} } keys %symbols);
-        }
+        ### blowing away non-methods...
+        namespace::clean->clean_subroutines($target, grep { !$methods{$_} } keys %symbols)
+            if $args{autoclean};
+        
+        return;
     };
 
     return;
@@ -133,8 +139,6 @@ Please report any bugs or feature requests to
 C<bug-moosex-markasmethods at rt.cpan.org>, or through
 the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-MarkAsMethods>.
-I will be notified, and then you'llautomatically be notified of progress
-on your bug as I make changes.
 
 =head1 SUPPORT
 
