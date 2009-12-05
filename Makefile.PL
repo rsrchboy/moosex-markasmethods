@@ -19,6 +19,7 @@ requires 'Moose' >= '0.90';
 requires 'namespace::clean';
 
 test_requires 'Test::More';
+test_requires 'Test::Moose';
 
 extra_tests;
 auto_install;

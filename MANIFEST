@@ -6,10 +6,13 @@ MANIFEST.SKIP
 META.yml
 README
 t/00-load.t
-t/01-simple.t
-t/02-inheritance.t
-t/lib/Simple.pm
-t/lib/SimpleChild.pm
+t/100_class.t
+t/101_class_less_simple.t
+t/102_class_no_autoclean.t
+t/103_class_inheritance.t
+t/200_role_overload.t
+t/201_role_overload_using_class.t
+t/funcs.pm
 xt/author/boilerplate.t
 xt/author/pod-coverage.t
 xt/author/pod.t

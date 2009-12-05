@@ -9,7 +9,7 @@ use B::Hooks::EndOfScope;
 use Moose 0.90 ();
 
 # debugging
-use Smart::Comments '###', '####';
+#use Smart::Comments '###', '####';
 
 =head1 NAME
 
@@ -17,8 +17,7 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 =cut
 
-our $VERSION = '0.02';
-
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -71,6 +70,8 @@ to worry about ordering is:
     use namespace::autoclean;
 
     use base 'Moose::Meta::Method';
+
+    our $VERSION = '0.03';
 
     # strictly speaking, we don't need to do this; we could just use
     # Moose::Meta::Method or even Class::MOP::Method...  But it might be
@@ -139,6 +140,11 @@ Please report any bugs or feature requests to
 C<bug-moosex-markasmethods at rt.cpan.org>, or through
 the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-MarkAsMethods>.
+
+=head1 TODO
+
+Additional testing is required, particularly where namespace::autoclean is
+also being used.
 
 =head1 SUPPORT
 

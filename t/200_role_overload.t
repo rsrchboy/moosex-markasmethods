@@ -3,7 +3,7 @@
 #
 # Author:  Chris Weyl (cpan:RSRCHBOY), <cweyl@alumni.drew.edu>
 # Company: No company, personal work
-# Created: 11/22/2009
+# Created: 12/04/2009
 #
 # Copyright (c) 2009  <cweyl@alumni.drew.edu>
 #
@@ -16,7 +16,7 @@
 
 =head1 NAME
 
-01-simple.t -  
+03-role.t -  
 
 =head1 DESCRIPTION 
 
@@ -28,24 +28,50 @@ This module defines the following tests.
 
 =cut
 
-#use Test::More tests => XX;
-use Test::More 0.92;
+use strict;
+use warnings;
 
-use FindBin;
-use lib "$FindBin::Bin/lib";
+{
+    package TestRole;
 
-use Simple;
+    use Moose::Role;
+    use MooseX::MarkAsMethods autoclean => 1;
 
-my $s = Simple->new;
-isa_ok $s, 'Simple';
+    use overload q{""} => sub { shift->stringify }, fallback => 1;
+    sub stringify { 'from role' }
 
-is "$s", 'bob', 'Stringified correctly';
-is $s->id, 'bob', 'id returns correctly';
+    has role_att => (isa => 'Str', is => 'rw');
+}
+{
+    package TestClass;
 
-ok $s->meta->has_method('(""'), 'still has overload method';
+    use Moose;
+    use MooseX::MarkAsMethods autoclean => 1;
+
+    with 'TestRole';
+
+    #sub stringify { 'gotcha!' }
+    has class_att => (isa => 'Str', is => 'rw');
+}
+
+use Test::More 0.92; #tests => XX;
+use Test::Moose;
+
+require 't/funcs.pm' unless eval { require funcs };
+
+check_sugar_removed_ok('TestClass');
+check_sugar_removed_ok('TestRole');
+
+my $t = make_and_check(
+    'TestClass',
+    [ 'TestRole' ],
+    [ qw{ role_att class_att } ],
+);
+
+is "$t", 'from role', 'TestClass stringified correctly';
+ok $t->meta->has_method('(""'), 'TestClass still has overload method';
 
 done_testing;
-
 
 __END__
 
@@ -75,5 +101,3 @@ License along with this library; if not, write to the
      Boston, MA  02111-1307  USA
 
 =cut
-
-
