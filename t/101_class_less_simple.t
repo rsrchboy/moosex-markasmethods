@@ -58,8 +58,7 @@ my $t = make_and_check(
     [ 'class_att' ],
 );
 
-is "$t", 'val: class_att value', 'TestClass stringified correctly';
-ok $t->meta->has_method('(""'), 'TestClass still has overload method';
+check_overloads($t, '""' => 'val: class_att value');
 
 done_testing;
 

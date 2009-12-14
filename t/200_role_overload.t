@@ -68,8 +68,7 @@ my $t = make_and_check(
     [ qw{ role_att class_att } ],
 );
 
-is "$t", 'from role', 'TestClass stringified correctly';
-ok $t->meta->has_method('(""'), 'TestClass still has overload method';
+check_overloads($t, '""' => 'from role');
 
 done_testing;
 

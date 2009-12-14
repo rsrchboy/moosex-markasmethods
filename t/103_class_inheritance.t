@@ -73,8 +73,8 @@ my $t = make_and_check(
     [ qw{ class_att baby_class_att } ],
 );
 
-is "$t", 'from class', 'TestClass stringified correctly';
-ok $t->meta->find_method_by_name('(""'), 'BabyTestClass still has overload method';
+check_overloads($T, '""', 'from class');
+check_overloads($t, '""', 'from class');
 
 done_testing;
 
