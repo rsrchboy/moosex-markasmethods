@@ -116,19 +116,19 @@ sub import {
             delete $symbols{$overload_name};
         }
 
-        ### blowing away non-methods...
-        namespace::clean->clean_subroutines($target, grep { !$methods{$_} } keys %symbols)
-            if $args{autoclean};
-        
         return;
     };
+
+    namespace::autoclean->import(-cleanee => $target)
+        if $args{autoclean};
 
     return;
 }
 
 =head1 SEE ALSO
 
-L<B::Hooks::EndOfScope>, L<namespace::autoclean>, L<Class::MOP>, L<Moose>.
+L<overload>, L<B::Hooks::EndOfScope>, L<namespace::autoclean>, L<Class::MOP>,
+L<Moose>.
 
 =head1 AUTHOR
 
