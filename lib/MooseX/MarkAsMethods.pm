@@ -17,7 +17,7 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
@@ -71,7 +71,7 @@ to worry about ordering is:
 
     use base 'Moose::Meta::Method';
 
-    our $VERSION = '0.03';
+    our $VERSION = '0.04';
 
     # strictly speaking, we don't need to do this; we could just use
     # Moose::Meta::Method or even Class::MOP::Method...  But it might be
