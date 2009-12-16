@@ -20,6 +20,7 @@ requires 'namespace::clean';
 
 test_requires 'Test::More';
 test_requires 'Test::Moose';
+test_requires 'Perl6::Junction';
 
 extra_tests;
 auto_install;
