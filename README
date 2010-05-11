@@ -1,43 +1,104 @@
-MooseX-MarkAsMethods
+NAME
+    MooseX::MarkAsMethods - Mark overload code symbols as methods
 
-Mark additional functions (e.g. overloads) as methods, so they're properly
-treated as such.
+SYNOPSIS
+        package Foo;
+        use Moose;
 
-INSTALLATION
+        # mark overloads as methods and wipe other non-methods
+        use MooseX::MarkAsMethods autoclean => 1;
 
-To install this module, run the following commands:
+        # ...
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+        package Bar;
+        use Moose;
 
-SUPPORT AND DOCUMENTATION
+        # order is important!
+        use namespace::autoclean;
+        use MooseX::MarkAsMethods;
 
-After installing, you can find documentation for this module with the
-perldoc command.
+        # ...
 
-    perldoc MooseX::MarkAsMethods
+DESCRIPTION
+    MooseX::MarkAsMethods allows one to easily mark certain functions as
+    Moose methods. This will allow other packages such as
+    namespace::autoclean to operate without, say, blowing away your
+    overloads.
 
-COPYRIGHT AND LICENSE
+    By default we check for overloads, and mark those functions as methods.
 
-Copyright (c) 2008, Chris Weyl <cweyl@alumni.drew.edu>
+    If 'autoclean => 1' is passed to import on use'ing this module, we will
+    clean out all non-methods in the same fashion namespace::autoclean does,
+    except without the ability to specify additional non-methods to nuke.
 
-This library is free software; you can redistribute it and/or modify it under
-the terms of the GNU Lesser General Public License as published by the Free
-Software Foundation; either version 2.1 of the License, or (at your option)
-any later version.
+CAVEAT
+    As currently implemented, we run our "method maker" at the end of the
+    calling package's compile scope (B::Hooks::EndOfScope). As
+    namespace::autoclean does the same thing, it's important that if
+    namespace::autoclean is used that it be use'd BEFORE
+    MooseX::MarkAsMethods, so that its end_of_scope block is run after ours.
 
-This library is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-OR A PARTICULAR PURPOSE.
+    The easiest way to invoke this module and clean out non-methods without
+    having to worry about ordering is:
 
-See the GNU Lesser General Public License for more details.
+        use MooseX::MarkAsMethods autoclean => 1;
 
-You should have received a copy of the GNU Lesser General Public License
-along with this library; if not, write to the
+SEE ALSO
+    overload, B::Hooks::EndOfScope, namespace::autoclean, Class::MOP, Moose.
 
-    Free Software Foundation, Inc.,
-    59 Temple Place, Suite 330,
-    Boston, MA  02111-1307 USA
+AUTHOR
+    Chris Weyl, "<cweyl at alumni.drew.edu>"
+
+BUGS
+    Please report any bugs or feature requests to "bug-moosex-markasmethods
+    at rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-MarkAsMethods>.
+
+TODO
+    Additional testing is required, particularly where namespace::autoclean
+    is also being used.
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc MooseX::MarkAsMethods
+
+    You can also look for information at:
+
+    *   RT: CPAN's request tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=MooseX-MarkAsMethods>
+
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/MooseX-MarkAsMethods>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/MooseX-MarkAsMethods>
+
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/MooseX-MarkAsMethods/>
+
+COPYRIGHT & LICENSE
+    Copyright (c) 2009, Chris Weyl "<cweyl@alumni.drew.edu>".
+
+    This library is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation; either version 2.1 of the License, or (at
+    your option) any later version.
+
+    This library is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS OR A PARTICULAR PURPOSE.
+
+    See the GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this library; if not, write to the
+
+        Free Software Foundation, Inc.,
+        59 Temple Place, Suite 330,
+        Boston, MA  02111-1307 USA
 

@@ -11,11 +11,13 @@ all_from 'lib/MooseX/MarkAsMethods.pm';
 author   q{Chris Weyl <cweyl@alumni.drew.edu>};
 license  'lgpl';
 
+readme_from 'lib/MooseX/MarkAsMethods.pm';
+readme_markdown_from 'lib/MooseX/MarkAsMethods.pm';
+
 requires 'namespace::autoclean';
 requires 'B::Hooks::EndOfScope';
 requires 'Moose' >= '0.90';
 
-# cleaning?
 requires 'namespace::clean';
 
 test_requires 'Test::More';
