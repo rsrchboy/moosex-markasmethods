@@ -5,11 +5,14 @@ MANIFEST
 MANIFEST.SKIP
 META.yml
 README
+README.mkdn
 t/00-load.t
 t/100_class.t
 t/101_class_less_simple.t
 t/102_class_no_autoclean.t
 t/103_class_inheritance.t
+t/104_via_method_name.t
+t/105_via_method_name_with_fallback.t
 t/200_role_overload.t
 t/201_role_overload_using_class.t
 t/funcs.pm

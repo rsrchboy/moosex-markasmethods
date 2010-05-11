@@ -13,9 +13,10 @@
 #
 #############################################################################
 
-=head1 DESCRIPTION 
+=head1 DESCRIPTION
 
-This test exercises a slightly more complex example.
+This test exercises overloading via method names (rather than a coderef),
+w/o fallbacks.
 
 =cut
 
@@ -28,7 +29,7 @@ use warnings;
     use Moose;
     use MooseX::MarkAsMethods autoclean => 1;
 
-    use overload q{""} => sub { shift->stringify }, fallback => 1;
+    use overload q{""} => 'stringify';
 
     has class_att => (isa => 'Str', is => 'rw', lazy_build => 1);
     sub _build_class_att { 'class_att value' }
@@ -36,7 +37,7 @@ use warnings;
     sub stringify { 'val: ' . shift->class_att }
 }
 
-use Test::More 0.92; #tests => XX;
+use Test::More 0.92;
 use Test::Moose;
 
 require 't/funcs.pm' unless eval { require funcs };
