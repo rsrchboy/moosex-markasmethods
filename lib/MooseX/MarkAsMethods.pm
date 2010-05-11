@@ -17,7 +17,7 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 
@@ -27,7 +27,14 @@ our $VERSION = '0.05';
     # mark overloads as methods and wipe other non-methods
     use MooseX::MarkAsMethods autoclean => 1;
 
-    # ...
+    # define overloads, etc as normal
+
+    package Baz;
+    use Moose::Role
+    use MooseX::MarkAsMethods autoclean => 1;
+
+    # overloads defined in a role will "just work" when the role is
+    # composed into a class
 
     package Bar;
     use Moose;
@@ -42,13 +49,15 @@ our $VERSION = '0.05';
 
 MooseX::MarkAsMethods allows one to easily mark certain functions as Moose
 methods.  This will allow other packages such as namespace::autoclean to
-operate without, say, blowing away your overloads.
+operate without, say, blowing away your overloads.  After using
+MooseX::MarkAsMethods your overloads will be recognized by L<Class::MOP> as
+being methods, and class extension as well as composition from roles with
+overloads will "just work".
 
 By default we check for overloads, and mark those functions as methods.
 
-If 'autoclean => 1' is passed to import on use'ing this module, we will clean
-out all non-methods in the same fashion namespace::autoclean does, except
-without the ability to specify additional non-methods to nuke.
+If 'autoclean => 1' is passed to import on use'ing this module, we will invoke
+namespace::autoclean to clear out non-methods.
 
 =head1 CAVEAT
 
@@ -57,6 +66,16 @@ package's compile scope (L<B::Hooks::EndOfScope>).  As L<namespace::autoclean>
 does the same thing, it's important that if namespace::autoclean is used that
 it be use'd BEFORE MooseX::MarkAsMethods, so that its end_of_scope block is
 run after ours.
+
+e.g.
+
+    # yes!
+    use namespace::autoclean;
+    use MooseX::MarkAsMethods;
+
+    # no -- overloads will be removed
+    use namespace::autoclean;
+    use MooseX::MarkAsMethods;
 
 The easiest way to invoke this module and clean out non-methods without having
 to worry about ordering is:
@@ -71,7 +90,7 @@ to worry about ordering is:
 
     use base 'Moose::Meta::Method';
 
-    our $VERSION = '0.05';
+    our $VERSION = '0.06';
 
     # strictly speaking, we don't need to do this; we could just use
     # Moose::Meta::Method or even Class::MOP::Method...  But it might be
@@ -130,6 +149,12 @@ sub import {
 L<overload>, L<B::Hooks::EndOfScope>, L<namespace::autoclean>, L<Class::MOP>,
 L<Moose>.
 
+L<MooseX::Role::WithOverloading> does allow for overload application from
+roles, but it does this by copying the overload symbols from the (not
+namespace::autoclean'ed role) the symbols handing overloads during class
+composition; we work by marking the overloads as methods and letting
+CMOP/Moose handle them.
+
 =head1 AUTHOR
 
 Chris Weyl, C<< <cweyl at alumni.drew.edu> >>
@@ -178,7 +203,7 @@ L<http://search.cpan.org/dist/MooseX-MarkAsMethods/>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2009, Chris Weyl C<< <cweyl@alumni.drew.edu> >>.
+Copyright (c) 2009, 2010, Chris Weyl C<< <cweyl@alumni.drew.edu> >>.
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
