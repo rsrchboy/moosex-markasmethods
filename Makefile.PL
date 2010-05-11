@@ -14,11 +14,9 @@ license  'lgpl';
 readme_from 'lib/MooseX/MarkAsMethods.pm';
 readme_markdown_from 'lib/MooseX/MarkAsMethods.pm';
 
-requires 'namespace::autoclean';
+requires 'namespace::autoclean' => '0.09';
 requires 'B::Hooks::EndOfScope';
-requires 'Moose' >= '0.90';
-
-requires 'namespace::clean';
+requires 'Moose' => '0.90';
 
 test_requires 'Test::More';
 test_requires 'Test::Moose';
