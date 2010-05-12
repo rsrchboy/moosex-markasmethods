@@ -11,6 +11,5 @@ cover_db
 *.old
 inc
 .*.swp
-ChangeLog
 META.yml
 *.bak

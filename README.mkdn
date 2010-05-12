@@ -10,7 +10,14 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
     # mark overloads as methods and wipe other non-methods
     use MooseX::MarkAsMethods autoclean => 1;
 
-    # ...
+    # define overloads, etc as normal
+
+    package Baz;
+    use Moose::Role
+    use MooseX::MarkAsMethods autoclean => 1;
+
+    # overloads defined in a role will "just work" when the role is
+    # composed into a class
 
     package Bar;
     use Moose;
@@ -25,13 +32,15 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 MooseX::MarkAsMethods allows one to easily mark certain functions as Moose
 methods.  This will allow other packages such as namespace::autoclean to
-operate without, say, blowing away your overloads.
+operate without, say, blowing away your overloads.  After using
+MooseX::MarkAsMethods your overloads will be recognized by [Class::MOP](http://search.cpan.org/perldoc?Class::MOP) as
+being methods, and class extension as well as composition from roles with
+overloads will "just work".
 
 By default we check for overloads, and mark those functions as methods.
 
-If 'autoclean => 1' is passed to import on use'ing this module, we will clean
-out all non-methods in the same fashion namespace::autoclean does, except
-without the ability to specify additional non-methods to nuke.
+If 'autoclean => 1' is passed to import on use'ing this module, we will invoke
+namespace::autoclean to clear out non-methods.
 
 # CAVEAT
 
@@ -40,6 +49,16 @@ package's compile scope ([B::Hooks::EndOfScope](http://search.cpan.org/perldoc?B
 does the same thing, it's important that if namespace::autoclean is used that
 it be use'd BEFORE MooseX::MarkAsMethods, so that its end_of_scope block is
 run after ours.
+
+e.g.
+
+    # yes!
+    use namespace::autoclean;
+    use MooseX::MarkAsMethods;
+
+    # no -- overloads will be removed
+    use namespace::autoclean;
+    use MooseX::MarkAsMethods;
 
 The easiest way to invoke this module and clean out non-methods without having
 to worry about ordering is:
@@ -50,6 +69,12 @@ to worry about ordering is:
 
 [overload](http://search.cpan.org/perldoc?overload), [B::Hooks::EndOfScope](http://search.cpan.org/perldoc?B::Hooks::EndOfScope), [namespace::autoclean](http://search.cpan.org/perldoc?namespace::autoclean), [Class::MOP](http://search.cpan.org/perldoc?Class::MOP),
 [Moose](http://search.cpan.org/perldoc?Moose).
+
+[MooseX::Role::WithOverloading](http://search.cpan.org/perldoc?MooseX::Role::WithOverloading) does allow for overload application from
+roles, but it does this by copying the overload symbols from the (not
+namespace::autoclean'ed role) the symbols handing overloads during class
+composition; we work by marking the overloads as methods and letting
+CMOP/Moose handle them.
 
 # AUTHOR
 
@@ -97,7 +122,7 @@ You can also look for information at:
 
 # COPYRIGHT & LICENSE
 
-Copyright (c) 2009, Chris Weyl `<cweyl@alumni.drew.edu>`.
+Copyright (c) 2009, 2010, Chris Weyl `<cweyl@alumni.drew.edu>`.
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free

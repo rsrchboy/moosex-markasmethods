@@ -1,0 +1,23 @@
+Changes for MooseX::MarkAsMethods
+
+0.06 - Tue May 11 2010
+	* Added a couple additional test cases
+	* Cleaned up our dependencies (*sigh*)
+
+0.05 - Mon Dec 14 20:15:32 2009 -0800
+  Chris Weyl <cweyl@alumni.drew.edu> (2):
+    make Perl6::Junction required for testing
+    Updating $VERSION to 0.05
+
+0.04 - Fri Dec 4 17:04:23 2009 -0800
+  Chris Weyl <cweyl@alumni.drew.edu> (4):
+    use namespace::clean->import()
+    abstract out o/l testing into check_overloads()
+    unmark author boilerplate tests as TODO
+    Updating $VERSION to 0.04
+
+0.03 - Wed Nov 25 22:15:47 2009 -0800
+  Chris Weyl <cweyl@alumni.drew.edu> (2):
+    .pm updates (autoclean)
+    Rework and enlarge test suite.
+
