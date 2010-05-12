@@ -108,7 +108,8 @@ sub import {
         my $meta = Class::MOP::Class->initialize($target);
 
         ### metaclass: ref $meta
-        return unless $meta && ref $meta ne 'Class::MOP::Class';
+        #return unless $meta && ref $meta ne 'Class::MOP::Class';
+        return unless $meta;
 
         my %methods   = map { ($_ => 1) } $meta->get_method_list;
         my %symbols   = %{ $meta->get_all_package_symbols('CODE') };
