@@ -59,7 +59,15 @@ By default we check for overloads, and mark those functions as methods.
 If 'autoclean => 1' is passed to import on use'ing this module, we will invoke
 namespace::autoclean to clear out non-methods.
 
-=head1 CAVEAT
+=head1 IMPLICATIONS FOR ROLES
+
+Using MooseX::MarkAsMethods in a role will cause Moose to track and treat your
+overloads like any other method defined in the role, and things will "just
+work".  That's it.
+
+=head1 CAVEATS
+
+=head2 namespace::autoclean
 
 As currently implemented, we run our "method maker" at the end of the calling
 package's compile scope (L<B::Hooks::EndOfScope>).  As L<namespace::autoclean>
