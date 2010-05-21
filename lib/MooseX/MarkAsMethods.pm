@@ -7,6 +7,7 @@ use namespace::autoclean;
 
 use B::Hooks::EndOfScope;
 use Moose 0.90 ();
+use Moose::Util::MetaRole;
 
 # debugging
 #use Smart::Comments '###', '####';
@@ -93,23 +94,60 @@ to worry about ordering is:
 =cut
 
 {
-    package MooseX::MarkAsMethods::Meta::Method::Overload;
+    package MooseX::MarkAsMethods::MetaRole::MethodMarker;
+    use Moose::Role;
     use namespace::autoclean;
 
-    use base 'Moose::Meta::Method';
+    sub mark_as_method {
+        my ($self, $method_name) = @_;
 
-    our $VERSION = '0.06';
+        do { warn "$method_name is already a method!"; return }
+            if $self->has_method($method_name);
 
-    # strictly speaking, we don't need to do this; we could just use
-    # Moose::Meta::Method or even Class::MOP::Method...  But it might be
-    # useful to easily differentiate these added methods.
+        my $code = $self->get_package_symbol({
+            name  => $method_name,
+            sigil => '&',
+            type  => 'CODE',
+        });
+
+        do { warn "$method_name not found as a CODE symbol!"; return }
+            unless defined $code;
+
+        $self->add_method($method_name =>
+            $self->wrap_method_body(
+                associated_metaclass => $self,
+                name => $method_name,
+                body => $code,
+            ),
+        );
+
+        return;
+    }
+}
+
+sub init_meta {
+    my ($class, %options) = @_;
+    my $for_class = $options{for_class};
+
+    Moose::Util::MetaRole::apply_metaroles(
+        for => $for_class,
+        class_metaroles => {
+            class => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
+        },
+        role_metaroles => {
+            role => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
+        },
+    );
+
+    return $for_class->meta;
 }
 
 sub import {
     my ($class, %args) = @_;
 
-    # our invoking package
     my $target = scalar caller;
+    return if $target eq 'main';
+    $class->init_meta(for_class => $target);
 
     on_scope_end {
 
@@ -131,14 +169,15 @@ sub import {
             next if $methods{$overload_name};
 
             ### marking as method: $overload_name
-            my $method = MooseX::MarkAsMethods::Meta::Method::Overload->wrap(
-                associated_metaclass => $meta,
-                package_name         => $target,
-                name                 => $overload_name,
-                body                 => $symbols{$overload_name},
-            );
+            #my $method = MooseX::MarkAsMethods::Meta::Method::Overload->wrap(
+            #    associated_metaclass => $meta,
+            #    package_name         => $target,
+            #    name                 => $overload_name,
+            #    body                 => $symbols{$overload_name},
+            #);
+            #$meta->add_method($overload_name => $method);
 
-            $meta->add_method($overload_name => $method);
+            $meta->mark_as_method($overload_name);
             $methods{$overload_name} = 1;
             delete $symbols{$overload_name};
         }
