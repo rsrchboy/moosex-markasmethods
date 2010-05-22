@@ -4,9 +4,8 @@
 #
 # Author:  Chris Weyl (cpan:RSRCHBOY), <cweyl@alumni.drew.edu>
 # Company: No company, personal work
-# Created: 12/04/2009
 #
-# Copyright (c) 2009  <cweyl@alumni.drew.edu>
+# Copyright (c) 2009, 2010  <cweyl@alumni.drew.edu>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -79,6 +78,30 @@ sub check_overloads {
 
         ok overload::Method($t, $op), "overload claims $class has $op overloaded";
         is "$t", $overloads{$op}, "$class o/l returned the expected value";
+    }
+
+    return;
+}
+
+sub check_methods    { _check_methods(\&pass, \&fail, @_) }
+sub check_no_methods { _check_methods(\&fail, \&pass, @_) }
+
+sub _check_methods {
+    my ($has, $not_has, $t, @methods) = @_;
+    my $class = ref $t;
+
+    for my $method (@methods) {
+
+        # see if we have it directly...
+        do { $has->("$class has method $method"); next }
+            if $t->meta->has_method($method);
+
+        # ... or via inheritance
+        do { $has->("$class inherits method $method"); next }
+            if $t->meta->find_method_by_name($method);
+
+        # if we're here, it's a fail
+        $not_has->("$class neither has nor inherits method $method");
     }
 
     return;

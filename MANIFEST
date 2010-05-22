@@ -15,6 +15,7 @@ t/104_via_method_name.t
 t/105_via_method_name_with_fallback.t
 t/200_role_overload.t
 t/201_role_overload_using_class.t
+t/300_generated_methods.t
 t/funcs.pm
 xt/author/boilerplate.t
 xt/author/pod-coverage.t
