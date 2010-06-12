@@ -1,5 +1,8 @@
 Changes for MooseX::MarkAsMethods
 
+0.09 - Fri Jun 11 2010
+	* push Moose required version (rt#58309)
+
 0.08 - Tue May 25 2010
 	* Remove "inc" from MANIFEST.SKIP...  Not entirely sure how that snuck in
 	  there.

@@ -18,7 +18,7 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 =cut
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 SYNOPSIS
 

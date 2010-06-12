@@ -16,7 +16,7 @@ readme_markdown_from 'lib/MooseX/MarkAsMethods.pm';
 
 requires 'namespace::autoclean' => '0.09';
 requires 'B::Hooks::EndOfScope';
-requires 'Moose' => '0.90';
+requires 'Moose' => '0.94';
 
 test_requires 'Test::More';
 test_requires 'Test::Moose';
