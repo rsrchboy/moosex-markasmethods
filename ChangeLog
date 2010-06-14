@@ -1,5 +1,11 @@
 Changes for MooseX::MarkAsMethods
 
+0.10 - Mon Jun 14 2010
+	* Add author_requires for modules needed by xt/ bits.
+	* MooseX/MarkAsMethods.pm was being a touch misleading, when asking for
+	  0.90 of Moose.  This fell out of sync with the requirements in
+	  Makefile.PL, and as such has been removed.
+
 0.09 - Fri Jun 11 2010
 	* push Moose required version (rt#58309)
 
