@@ -22,6 +22,10 @@ test_requires 'Test::More';
 test_requires 'Test::Moose';
 test_requires 'Perl6::Junction';
 
+author_requires 'File::Find::Rule';
+author_requires 'FindBin';
+author_requires 'Module::ScanDeps';
+
 extra_tests;
 auto_install;
 auto_provides;
