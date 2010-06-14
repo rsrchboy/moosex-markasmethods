@@ -6,7 +6,7 @@ use strict;
 use namespace::autoclean;
 
 use B::Hooks::EndOfScope;
-use Moose 0.90 ();
+use Moose ();
 use Moose::Util::MetaRole;
 
 # debugging
@@ -18,7 +18,7 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 SYNOPSIS
 
