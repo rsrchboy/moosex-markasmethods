@@ -10,6 +10,7 @@ use namespace::autoclean;
 use B::Hooks::EndOfScope;
 use Moose ();
 use Moose::Util::MetaRole;
+use Try::Tiny;
 
 # debugging
 #use Smart::Comments '###', '####';
@@ -98,6 +99,23 @@ sub import {
             $meta->mark_as_method($overload_name);
             $methods{$overload_name} = 1;
             delete $symbols{$overload_name};
+        }
+
+        if ($args{preserve_constants}) {
+
+            try   { Class::MOP::load_class('Package::Constants') }
+            catch { die "Unable to load Package::Constants: $_"  }
+            ;
+
+            # find all our overloads...
+            my @constants = Package::Constants->list($target);
+
+            for my $constant (@constants) {
+
+                # mark as a method, if not already
+                do { $methods{$constant} = 1; $meta->mark_as_method($constant) }
+                    if $symbols{$constant} && ! $methods{$constant};
+            }
         }
 
         return;
