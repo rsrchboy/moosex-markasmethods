@@ -1,24 +1,3 @@
-#!/usr/bin/env perl
-#############################################################################
-#
-# Author:  Chris Weyl (cpan:RSRCHBOY), <cweyl@alumni.drew.edu>
-# Company: No company, personal work
-#
-# Copyright (c) 2010  <cweyl@alumni.drew.edu>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-#############################################################################
-
-=head1 DESCRIPTION
-
-This test exercises some of the metaclass' mark_as_method().
-
-=cut
-
 use strict;
 use warnings;
 
@@ -76,4 +55,3 @@ sub TestClass::gen1 { 'gen1 called' }
 
 done_testing;
 
-__END__

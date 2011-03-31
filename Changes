@@ -1,4 +1,6 @@
-Changes for MooseX::MarkAsMethods
+Changes for MooseX-MarkAsMethods
+
+{{$NEXT}}
 
 0.10 - Mon Jun 14 2010
 	* Add author_requires for modules needed by xt/ bits.

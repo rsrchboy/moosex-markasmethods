@@ -1,24 +1,3 @@
-#!/usr/bin/env perl
-#############################################################################
-#
-# Author:  Chris Weyl (cpan:RSRCHBOY), <cweyl@alumni.drew.edu>
-# Company: No company, personal work
-#
-# Copyright (c) 2009  <cweyl@alumni.drew.edu>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-#############################################################################
-
-=head1 DESCRIPTION 
-
-This test exercises overloading w/o our also autoclean'ing.
-
-=cut
-
 use strict;
 use warnings;
 

@@ -1,19 +1,3 @@
-#############################################################################
-#
-# Some utility routines to make testing a little easier
-#
-# Author:  Chris Weyl (cpan:RSRCHBOY), <cweyl@alumni.drew.edu>
-# Company: No company, personal work
-#
-# Copyright (c) 2009, 2010  <cweyl@alumni.drew.edu>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-#############################################################################
-
 my @sugar = qw{ has around augment inner before after blessed confess };
 
 sub check_sugar_removed_ok {
