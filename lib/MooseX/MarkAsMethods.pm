@@ -113,8 +113,8 @@ e.g.
     use MooseX::MarkAsMethods;
 
     # no -- overloads will be removed
-    use namespace::autoclean;
     use MooseX::MarkAsMethods;
+    use namespace::autoclean;
 
 The easiest way to invoke this module and clean out non-methods without having
 to worry about ordering is:
