@@ -1,6 +1,11 @@
 Changes for MooseX-MarkAsMethods
 
 {{$NEXT}}
+
+0.12      2011-09-16 11:10:21 America/Los_Angeles
+	* restore Moose minimum version as 0.94
+
+0.11      2011-03-31 15:07:38 America/Los_Angeles
     * Correct POD error
     * Switch to Dist::Zilla
 
