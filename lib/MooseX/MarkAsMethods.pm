@@ -8,7 +8,7 @@ use strict;
 use namespace::autoclean;
 
 use B::Hooks::EndOfScope;
-use Moose ();
+use Moose 0.94 ();
 use Moose::Util::MetaRole;
 
 # debugging
