@@ -28,7 +28,6 @@ use warnings;
 
 use Test::More 0.92;
 use Test::Moose;
-use Perl6::Junction 'any';
 
 require 't/funcs.pm' unless eval { require funcs };
 
