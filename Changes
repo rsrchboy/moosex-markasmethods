@@ -2,6 +2,9 @@ Changes for MooseX-MarkAsMethods
 
 {{$NEXT}}
 
+0.13      2011-09-17 10:08:31 America/Los_Angeles
+	* drop Perl6::Junction dependency; we don't use it (anymore?)
+
 0.12      2011-09-16 11:10:21 America/Los_Angeles
 	* restore Moose minimum version as 0.94
 
