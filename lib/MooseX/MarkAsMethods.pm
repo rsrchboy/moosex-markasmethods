@@ -10,6 +10,7 @@ use namespace::autoclean;
 use B::Hooks::EndOfScope;
 use Moose 0.94 ();
 use Moose::Util::MetaRole;
+use Moose::Exporter;
 
 # debugging
 #use Smart::Comments '###', '####';
@@ -53,22 +54,15 @@ use Moose::Util::MetaRole;
     }
 }
 
-sub init_meta {
-    my ($class, %options) = @_;
-    my $for_class = $options{for_class};
-
-    Moose::Util::MetaRole::apply_metaroles(
-        for => $for_class,
-        class_metaroles => {
-           class => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
-        },
-        role_metaroles => {
-            role => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
-        },
-    );
-
-    return $for_class->meta;
-}
+my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
+    install => [ qw{ init_meta unimport } ],
+    class_metaroles => {
+        class => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
+    },
+    role_metaroles => {
+        role => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
+    },
+);
 
 sub import {
     my ($class, %args) = @_;
