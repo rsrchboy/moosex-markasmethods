@@ -5,7 +5,7 @@ package MooseX::MarkAsMethods;
 use warnings;
 use strict;
 
-use namespace::autoclean;
+use namespace::autoclean 0.12;
 
 use B::Hooks::EndOfScope;
 use Moose 0.94 ();
@@ -54,7 +54,7 @@ use Moose::Exporter;
     }
 }
 
-my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
+my ($import) = Moose::Exporter->build_import_methods(
     install => [ qw{ init_meta unimport } ],
     class_metaroles => {
         class => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
@@ -65,14 +65,30 @@ my ($import, $unimport, $init_meta) = Moose::Exporter->build_import_methods(
 );
 
 sub import {
-    my ($class, %args) = @_;
+    #my ($class, @args) = @_;
+    my $class = shift @_;
 
-    my $target = scalar caller;
+    # if someone is passing in Sub::Exporter-style initial hash, grab it
+    my $exporter_opts;
+    $exporter_opts = shift @_ if ref $_[0] && ref $_[0] eq 'HASH';
+    my %args = @_;
+
+    #my $target = $exporter_opts->{into} if $exporter_opts;
+    #$target  ||= scalar caller;
+    my $target
+        = defined $exporter_opts && defined $exporter_opts->{into}
+        ? $exporter_opts->{into}
+        : scalar caller
+        ;
+
     return if $target eq 'main';
-    $class->init_meta(for_class => $target);
+    #$class->init_meta(for_class => $target);
+
+    my $do_autoclean = delete $args{autoclean};
 
     on_scope_end {
 
+        ### $target
         my $meta = Class::MOP::Class->initialize($target);
 
         ### metaclass: ref $meta
@@ -97,9 +113,15 @@ sub import {
         return;
     };
 
+    ### $do_autoclean
     namespace::autoclean->import(-cleanee => $target)
-        if $args{autoclean};
+        if $do_autoclean;
 
+    @_ = $exporter_opts ? ($exporter_opts, %args) : (%args);
+    unshift @_, $class;
+
+    ### @_
+    goto &$import;
     return;
 }
 
