@@ -2,6 +2,9 @@ Changes for MooseX-MarkAsMethods
 
 {{$NEXT}}
 
+0.14      2011-11-03 21:08:52 America/Los_Angeles
+	* honor the "into => 'X'" flag Sub::Exporter recognizes
+
 0.13      2011-09-17 10:08:31 America/Los_Angeles
 	* drop Perl6::Junction dependency; we don't use it (anymore?)
 
