@@ -140,17 +140,18 @@ __END__
     use MooseX::MarkAsMethods autoclean => 1;
 
     # define overloads, etc as normal
+    use overload '""' => sub { shift->stringify };
 
     package Baz;
     use Moose::Role;
     use MooseX::MarkAsMethods autoclean => 1;
 
     # overloads defined in a role will "just work" when the role is
-    # composed into a class
-
-    use constant foo => 'bar';
+    # composed into a class; they MUST use the anon-sub style invocation
+    use overload '""' => sub { shift->stringify };
 
     # additional methods generated outside Class::MOP/Moose can be marked, too
+    use constant foo => 'bar';
     __PACKAGE__->meta->mark_as_method('foo');
 
     package Bar;
@@ -173,12 +174,12 @@ overloads will "just work".
 
 By default we check for overloads, and mark those functions as methods.
 
-If 'autoclean => 1' is passed to import on use'ing this module, we will invoke
+If C<autoclean =&gt; 1> is passed to import on using this module, we will invoke
 namespace::autoclean to clear out non-methods.
 
 =head1 TRAITS APPLIED
 
-use'ing this package causes a trait to be applied to your metaclass (for both
+Using this package causes a trait to be applied to your metaclass (for both
 roles and classes), that provides a mark_as_method() method.  You can use this
 to mark newly generated methods at runtime (e.g. during class composition)
 that some other package has created for you.
@@ -203,7 +204,32 @@ Using MooseX::MarkAsMethods in a role will cause Moose to track and treat your
 overloads like any other method defined in the role, and things will "just
 work".  That's it.
 
+Except...  note that due to the way overloads, roles, and Moose work, you'll
+need to use the coderef or anonymous subroutine approach to overload
+declaration, or things will not work as you expect.  Remember, we're talking
+about _methods_ here, so we need to make it easy for L<overload> to find
+the right method.  The easiest (and supported) way to do this is to create an
+anonymous sub to wrap the overload method.
+
+That is, this will work:
+
+    # note method resolution, things will "just work"
+    use overload '""' => sub { shift->stringify };
+
+...and this will not:
+
+    use overload '""' => 'stringify';
+
+...and will result in an error message like:
+
+    # wah-wah
+    Can't resolve method "???" overloading """" in package "overload"
+
 =head1 CAVEATS
+
+=head2 Roles
+
+See the "IMPLICATIONS FOR ROLES" section, above.
 
 =head2 meta->mark_as_method()
 
@@ -216,7 +242,7 @@ Before using this method, you should pause and think about why you need to.
 As currently implemented, we run our "method maker" at the end of the calling
 package's compile scope (L<B::Hooks::EndOfScope>).  As L<namespace::autoclean>
 does the same thing, it's important that if namespace::autoclean is used that
-it be use'd BEFORE MooseX::MarkAsMethods, so that its end_of_scope block is
+it be used BEFORE MooseX::MarkAsMethods, so that its end_of_scope block is
 run after ours.
 
 e.g.
@@ -241,16 +267,9 @@ L<Moose>.
 
 L<MooseX::Role::WithOverloading> does allow for overload application from
 roles, but it does this by copying the overload symbols from the (not
-namespace::autoclean'ed role) the symbols handing overloads during class
+L<namespace::autoclean>'ed role) the symbols handing overloads during class
 composition; we work by marking the overloads as methods and letting
 CMOP/Moose handle them.
-
-=head1 BUGS
-
-Please report any bugs or feature requests to
-C<bug-moosex-markasmethods at rt.cpan.org>, or through
-the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-MarkAsMethods>.
 
 =cut
 
