@@ -2,6 +2,11 @@ Changes for MooseX-MarkAsMethods
 
 {{$NEXT}}
 
+0.15      2012-05-30 17:34:11 America/Los_Angeles
+	* Document that overload declarations must use the anon sub style for
+	  methods to resolve correctly.
+	* No code/functionality changes.
+
 0.14      2011-11-03 21:08:52 America/Los_Angeles
 	* honor the "into => 'X'" flag Sub::Exporter recognizes
 
