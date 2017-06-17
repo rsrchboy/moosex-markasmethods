@@ -7,6 +7,8 @@ use strict;
 
 use namespace::autoclean 0.12;
 
+use aliased 'MooseX::MarkAsMethods::MetaRole::MethodMarker';
+
 use B::Hooks::EndOfScope;
 use Moose 0.94 ();
 use Moose::Util::MetaRole;
@@ -15,52 +17,13 @@ use Moose::Exporter;
 # debugging
 #use Smart::Comments '###', '####';
 
-{
-    package MooseX::MarkAsMethods::MetaRole::MethodMarker;
-    use Moose::Role;
-    use namespace::autoclean;
-
-    sub mark_as_method {
-        my $self = shift @_;
-
-        $self->_mark_as_method($_) for @_;
-        return;
-    }
-
-    sub _mark_as_method {
-        my ($self, $method_name) = @_;
-
-        do { warn "$method_name is already a method!"; return }
-            if $self->has_method($method_name);
-
-        my $code = $self->get_package_symbol({
-            name  => $method_name,
-            sigil => '&',
-            type  => 'CODE',
-        });
-
-        do { warn "$method_name not found as a CODE symbol!"; return }
-            unless defined $code;
-
-        $self->add_method($method_name =>
-            $self->wrap_method_body(
-                associated_metaclass => $self,
-                name => $method_name,
-                body => $code,
-            ),
-        );
-
-        return;
-    }
-}
-
 my ($import) = Moose::Exporter->build_import_methods(
     install => [ qw{ init_meta unimport } ],
     class_metaroles => {
-        class => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
+        class => [ MethodMarker ],
     },
     role_metaroles => {
-        role => ['MooseX::MarkAsMethods::MetaRole::MethodMarker'],
+        role => [ MethodMarker ],
     },
 );
 
