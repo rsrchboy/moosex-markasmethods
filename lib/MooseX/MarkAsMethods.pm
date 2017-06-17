@@ -14,9 +14,6 @@ use Moose 0.94 ();
 use Moose::Util::MetaRole;
 use Moose::Exporter;
 
-# debugging
-#use Smart::Comments '###', '####';
-
 my ($import) = Moose::Exporter->build_import_methods(
     install => [ qw{ init_meta unimport } ],
     class_metaroles => {
@@ -28,7 +25,6 @@ my ($import) = Moose::Exporter->build_import_methods(
 );
 
 sub import {
-    #my ($class, @args) = @_;
     my $class = shift @_;
 
     # if someone is passing in Sub::Exporter-style initial hash, grab it
@@ -36,8 +32,6 @@ sub import {
     $exporter_opts = shift @_ if ref $_[0] && ref $_[0] eq 'HASH';
     my %args = @_;
 
-    #my $target = $exporter_opts->{into} if $exporter_opts;
-    #$target  ||= scalar caller;
     my $target
         = defined $exporter_opts && defined $exporter_opts->{into}
         ? $exporter_opts->{into}
@@ -45,7 +39,6 @@ sub import {
         ;
 
     return if $target eq 'main';
-    #$class->init_meta(for_class => $target);
 
     my $do_autoclean = delete $args{autoclean};
 
@@ -80,12 +73,10 @@ sub import {
     namespace::autoclean->import(-cleanee => $target)
         if $do_autoclean;
 
-    @_ = $exporter_opts ? ($exporter_opts, %args) : (%args);
-    unshift @_, $class;
+    @_ = ($class => $exporter_opts ? ($exporter_opts, %args) : (%args));
 
     ### @_
     goto &$import;
-    return;
 }
 
 1;
