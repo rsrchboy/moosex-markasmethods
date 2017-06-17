@@ -4,6 +4,7 @@ package MooseX::MarkAsMethods;
 
 use warnings;
 use strict;
+use version;
 
 use namespace::autoclean 0.12;
 
@@ -42,7 +43,11 @@ sub import {
 
     my $do_autoclean = delete $args{autoclean};
 
-    on_scope_end {
+    my $skip_em = delete $args{force}
+        || Moose->VERSION >= '2.1400' && namespace::autoclean->VERSION >= '0.16';
+
+    ### skip iff Moose & autoclean are new enough: $skip_em
+    $skip_em || on_scope_end {
 
         ### $target
         my $meta = Class::MOP::Class->initialize($target);
