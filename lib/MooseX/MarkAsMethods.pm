@@ -262,14 +262,10 @@ to worry about ordering is:
 
 =head1 SEE ALSO
 
-L<overload>, L<B::Hooks::EndOfScope>, L<namespace::autoclean>, L<Class::MOP>,
-L<Moose>.
-
-L<MooseX::Role::WithOverloading> does allow for overload application from
-roles, but it does this by copying the overload symbols from the (not
-L<namespace::autoclean>'ed role) the symbols handing overloads during class
-composition; we work by marking the overloads as methods and letting
-CMOP/Moose handle them.
+overload
+namespace::autoclean
+B::Hooks::EndOfScope
+MooseX::Role::WithOverloading
 
 =cut
 
