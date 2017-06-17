@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/RsrchBoy/moosex-markasmethods.svg?branch=master)](https://travis-ci.org/RsrchBoy/moosex-markasmethods)
 [![Kwalitee status](http://cpants.cpanauthors.org/dist/MooseX-MarkAsMethods.png)](http://cpants.charsbar.org/dist/overview/MooseX-MarkAsMethods)
-[![Coverage Status](https://coveralls.io/repos/RsrchBoy/moosex-markasmethods/badge.png?branch=master)](https://coveralls.io/r/RsrchBoy/moosex-markasmethods?branch=master)
+[![Coverage Status](https://coveralls.io/repos/RsrchBoy/moosex-markasmethods/badge.svg?branch=master)](https://coveralls.io/r/RsrchBoy/moosex-markasmethods?branch=master)
 
 # NAME
 
@@ -8,7 +8,7 @@ MooseX::MarkAsMethods - Mark overload code symbols as methods
 
 # VERSION
 
-This document describes version 0.16 of MooseX::MarkAsMethods - released May 04, 2015 as part of MooseX-MarkAsMethods.
+This document describes version 0.16 of MooseX::MarkAsMethods - released June 17, 2017 as part of MooseX-MarkAsMethods.
 
 # SYNOPSIS
 
@@ -143,23 +143,15 @@ to worry about ordering is:
 
 Please see those modules/websites for more information related to this module.
 
-- [[overload](https://metacpan.org/pod/overload), [B::Hooks::EndOfScope](https://metacpan.org/pod/B::Hooks::EndOfScope), [namespace::autoclean](https://metacpan.org/pod/namespace::autoclean), [Class::MOP](https://metacpan.org/pod/Class::MOP),](https://metacpan.org/pod/overload,&#x20;B::Hooks::EndOfScope,&#x20;namespace::autoclean,&#x20;Class::MOP,)
-- [[Moose](https://metacpan.org/pod/Moose).](https://metacpan.org/pod/Moose.)
-- [[MooseX::Role::WithOverloading](https://metacpan.org/pod/MooseX::Role::WithOverloading) does allow for overload application from](https://metacpan.org/pod/MooseX::Role::WithOverloading&#x20;does&#x20;allow&#x20;for&#x20;overload&#x20;application&#x20;from)
-- [roles, but it does this by copying the overload symbols from the (not](https://metacpan.org/pod/roles,&#x20;but&#x20;it&#x20;does&#x20;this&#x20;by&#x20;copying&#x20;the&#x20;overload&#x20;symbols&#x20;from&#x20;the&#x20;\(not)
-- [[namespace::autoclean](https://metacpan.org/pod/namespace::autoclean)'ed role) the symbols handing overloads during class](https://metacpan.org/pod/namespace::autoclean&#x27;ed&#x20;role\)&#x20;the&#x20;symbols&#x20;handing&#x20;overloads&#x20;during&#x20;class)
-- [composition; we work by marking the overloads as methods and letting](https://metacpan.org/pod/composition;&#x20;we&#x20;work&#x20;by&#x20;marking&#x20;the&#x20;overloads&#x20;as&#x20;methods&#x20;and&#x20;letting)
-- [CMOP/Moose handle them.](https://metacpan.org/pod/CMOP#Moose-handle-them)
-
-# SOURCE
-
-The development version is on github at [http://https://github.com/RsrchBoy/moosex-markasmethods](http://https://github.com/RsrchBoy/moosex-markasmethods)
-and may be cloned from [git://https://github.com/RsrchBoy/moosex-markasmethods.git](git://https://github.com/RsrchBoy/moosex-markasmethods.git)
+- [overload](https://metacpan.org/pod/overload)
+- [namespace::autoclean](https://metacpan.org/pod/namespace::autoclean)
+- [B::Hooks::EndOfScope](https://metacpan.org/pod/B::Hooks::EndOfScope)
+- [MooseX::Role::WithOverloading](https://metacpan.org/pod/MooseX::Role::WithOverloading)
 
 # BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/RsrchBoy/moosex-markasmethods/issues
+[https://github.com/RsrchBoy/moosex-markasmethods/issues](https://github.com/RsrchBoy/moosex-markasmethods/issues)
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
@@ -169,35 +161,10 @@ feature.
 
 Chris Weyl <cweyl@alumni.drew.edu>
 
-## I'm a material boy in a material world
-
-<div>
-    <a href="https://gratipay.com/RsrchBoy/"><img src="http://img.shields.io/gratipay/RsrchBoy.svg" /></a>
-    <a href="http://bit.ly/rsrchboys-wishlist"><img src="http://wps.io/wp-content/uploads/2014/05/amazon_wishlist.resized.png" /></a>
-    <a href="https://flattr.com/submit/auto?user_id=RsrchBoy&url=https%3A%2F%2Fgithub.com%2FRsrchBoy%2Fmoosex-markasmethods&title=RsrchBoy's%20CPAN%20MooseX-MarkAsMethods&tags=%22RsrchBoy's%20MooseX-MarkAsMethods%20in%20the%20CPAN%22"><img src="http://api.flattr.com/button/flattr-badge-large.png" /></a>
-</div>
-
-Please note **I do not expect to be gittip'ed or flattr'ed for this work**,
-rather **it is simply a very pleasant surprise**. I largely create and release
-works like this because I need them or I find it enjoyable; however, don't let
-that stop you if you feel like it ;)
-
-[Flattr](https://flattr.com/submit/auto?user_id=RsrchBoy&url=https%3A%2F%2Fgithub.com%2FRsrchBoy%2Fmoosex-markasmethods&title=RsrchBoy&#x27;s%20CPAN%20MooseX-MarkAsMethods&tags=%22RsrchBoy&#x27;s%20MooseX-MarkAsMethods%20in%20the%20CPAN%22),
-[Gratipay](https://gratipay.com/RsrchBoy/), or indulge my
-[Amazon Wishlist](http://bit.ly/rsrchboys-wishlist)...  If and \*only\* if you so desire.
-
 # COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2011 by Chris Weyl.
+This software is Copyright (c) 2017, 2012, 2011, 2010, 2009 by Chris Weyl.
 
 This is free software, licensed under:
 
     The GNU Lesser General Public License, Version 2.1, February 1999
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 178:
-
-    alternative text 'CMOP/Moose handle them.' contains non-escaped | or /
