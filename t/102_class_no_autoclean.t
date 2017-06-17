@@ -16,7 +16,8 @@ use warnings;
 use Test::More 0.92;
 use Test::Moose;
 
-require 't/funcs.pm' unless eval { require funcs };
+use lib q{t};
+require funcs;
 
 check_sugar_ok('TestClass');
 
