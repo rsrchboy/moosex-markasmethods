@@ -1,6 +1,6 @@
 package MooseX::MarkAsMethods::MetaRole::MethodMarker;
 
-# ABSTRACT: MarkAsMethod's class metaclass trait (metarole/etc)
+# ABSTRACT: MarkAsMethods' class metaclass trait (metarole/etc)
 
 use Moose::Role;
 use namespace::autoclean;
@@ -43,6 +43,6 @@ __END__
 
 =head1 DESCRIPTION
 
-The metaclass trait that lets L<MooseX::MarkAsMethod> do its thing.
+The metaclass trait that lets L<MooseX::MarkAsMethods> do its thing.
 
 =cut
